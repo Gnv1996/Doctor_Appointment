@@ -57,7 +57,7 @@ function Patients() {
   };
 
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto mt-10 ">
       <div className="mt-4 flex justify-end">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
@@ -130,7 +130,7 @@ function Patients() {
       )}
 
       <div className="bg-white shadow-md rounded-lg overflow-hidden py-3">
-        <table className="min-w-full">
+        <table className="w-10/12 ml-40">
           <thead>
             <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
               <th className="py-3 px-6 text-left">Patients ID</th>
