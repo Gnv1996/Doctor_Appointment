@@ -26,7 +26,7 @@ export function Sidebar() {
           <ListItemPrefix>
             <PresentationChartBarIcon className="h-5 w-7" />
           </ListItemPrefix>
-          <Link to="/home">Dashboard</Link>
+          <Link to="/">Dashboard</Link>
         </ListItem>
         <ListItem className="py-3">
           <ListItemPrefix>
@@ -39,13 +39,13 @@ export function Sidebar() {
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-7 " />
             </ListItemPrefix>
-            Settings
+            <Link to="/"> Settings</Link>
           </ListItem>
           <ListItem className="py-3">
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-7" />
             </ListItemPrefix>
-            Help Center
+            <Link to="/contact"> Help Center</Link>
           </ListItem>
 
           <ListItem className="py-3">

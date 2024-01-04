@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid"; // Import uuid
+import Swal from "sweetalert2";
 
 function Patients() {
   const [patients, setPatients] = useState([
@@ -8,11 +9,13 @@ function Patients() {
       name: "Millie Simons",
       dob: "8/6/1998",
       gender: "Male",
+      mobile: "7667558282",
     },
   ]);
   const [names, setName] = useState("");
   const [dobs, setDob] = useState("");
   const [genders, setGender] = useState("");
+  const [mobile_no, setMobile_no] = useState("");
 
   const [editingPatient, setEditingPatient] = useState(null);
   const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
@@ -31,12 +34,21 @@ function Patients() {
       name: names,
       dob: dobs,
       gender: genders,
+      mobile: mobile_no,
     };
     setPatients([...patients, newPatient]);
     setName("");
     setDob("");
     setGender("");
+    setMobile_no("");
     closeAddPatientModal();
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Patient Record Save Successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const removePatient = (id) => {
@@ -47,17 +59,30 @@ function Patients() {
   const editPatient = (id) => {
     setEditingPatient(id);
   };
-
   const saveChanges = (id, updatedInfo) => {
     const updatedPatients = patients.map((patient) =>
       patient.id === id ? { ...patient, ...updatedInfo } : patient
     );
     setPatients(updatedPatients);
     setEditingPatient(null);
+
+    // Delay the success message using setTimeout
+    setTimeout(() => {
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Patient Records Updated Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }, 500);
   };
 
   return (
     <div className="container mx-auto mt-10 ">
+      <div className="mt-4 flex justify-start ml-20">
+        <h1 className="text-4xl font-bold  text-blue-900">Patient</h1>
+      </div>
       <div className="mt-4 flex justify-end">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
@@ -107,10 +132,16 @@ function Patients() {
                   placeholder="Other"
                   onChange={(e) => setGender(e.target.value)}
                 />
+                <label className="block my-2">Mobile No:</label>
+                <input
+                  className="w-full p-2 border rounded"
+                  type="phone"
+                  placeholder="123456789"
+                  onChange={(e) => setMobile_no(e.target.value)}
+                />
               </div>
-              {/* Footer */}
+
               <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                {/* Buttons to add or cancel */}
                 <button
                   className="text-white bg-green-500 hover:bg-green-700 border-0 py-2 px-4 rounded"
                   onClick={addNewPatient}
@@ -129,14 +160,15 @@ function Patients() {
         </div>
       )}
 
-      <div className="bg-white shadow-md rounded-lg overflow-hidden py-3">
-        <table className="w-10/12 ml-40">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden py-3 pb-96">
+        <table className="w-11/12 ml-16">
           <thead>
             <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
               <th className="py-3 px-6 text-left">Patients ID</th>
               <th className="py-3 px-6 text-left">Name</th>
               <th className="py-3 px-6 text-left">DOB</th>
               <th className="py-3 px-6 text-left">Gender</th>
+              <th className="py-3 px-6 text-left">Mobile no:</th>
               <th className="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
@@ -184,6 +216,19 @@ function Patients() {
                     />
                   ) : (
                     patient.gender
+                  )}
+                </td>
+                <td className="py-3 px-6">
+                  {editingPatient === patient.id ? (
+                    <input
+                      type="text"
+                      value={patient.gender}
+                      onChange={(e) =>
+                        saveChanges(patient.id, { gender: e.target.value })
+                      }
+                    />
+                  ) : (
+                    patient.mobile
                   )}
                 </td>
                 <td className="py-3 px-6 text-right">

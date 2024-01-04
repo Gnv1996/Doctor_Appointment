@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginScreen from "./Component/Screen/LoginScreen";
 import { Sidebar } from "./Component/Navigator/Sidebar";
 import HomeScreen from "./Component/Screen/HomeScreen";
+import FooterScreen from "./Component/Screen/FooterScreen";
+import RegisterScreen from "./Component/Screen/RegisterScreen";
+import ContactScreen from "./Component/Screen/ContactScreen";
 
 function App() {
   return (
@@ -17,10 +20,14 @@ function App() {
         </div>
         <div className="container ml-40">
           <Routes>
-            <Route path="home" element={<HomeScreen />} />
+            <Route path="/" element={<HomeScreen />} />
             <Route path="Patients" element={<Patients />} />
             <Route path="Login" element={<LoginScreen />} />
+            <Route path="Register" element={<RegisterScreen />} />
+            <Route path="contact" element={<ContactScreen />} />
           </Routes>
+
+          <FooterScreen />
         </div>
       </Router>
     </div>
