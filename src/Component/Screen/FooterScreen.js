@@ -92,17 +92,19 @@ function FooterScreen() {
                   </Link>
                 </li>
                 <li className="pb-2">
-                  <a className="text-gray-600 hover:text-gray-800">Career</a>
+                  <Link className="text-gray-600 hover:text-gray-800">
+                    Career
+                  </Link>
                 </li>
                 <li className="pb-2">
-                  <a className="text-gray-600 hover:text-gray-800">
+                  <Link className="text-gray-600 hover:text-gray-800">
                     TDS Certificate
-                  </a>
+                  </Link>
                 </li>
                 <li className="pb-2">
-                  <a className="text-gray-600 hover:text-gray-800">
+                  <Link className="text-gray-600 hover:text-gray-800">
                     Event Gallery
-                  </a>
+                  </Link>
                 </li>
               </nav>
             </div>

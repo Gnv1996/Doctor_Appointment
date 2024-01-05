@@ -54,6 +54,13 @@ function Patients() {
   const removePatient = (id) => {
     const updatedPatients = patients.filter((patient) => patient.id !== id);
     setPatients(updatedPatients);
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Patient Record Delete Successfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const editPatient = (id) => {
@@ -71,7 +78,7 @@ function Patients() {
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "Patient Records Updated Successfully!",
+        title: "Patient Records Updated Successfully! Dr.Bugu",
         showConfirmButton: false,
         timer: 1500,
       });
