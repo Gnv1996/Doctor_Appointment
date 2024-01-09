@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid"; // Import uuid
 import Swal from "sweetalert2";
+import BillScreen from "./BillScreen";
 
 function Patients() {
   const [patients, setPatients] = useState([
     {
       id: "K8L5ZO17F2",
       name: "Millie Simons",
-      dob: "8/6/1998",
+      dob: "24",
       gender: "Male",
       mobile: "7667558282",
+      billPayment: {
+        doctorFee: 0,
+        medicineCharge: 0,
+        ambulanceCharge: 0,
+        messCharge: 0,
+        maidFee: 0,
+        otherCharge: 0,
+      },
     },
   ]);
   const [names, setName] = useState("");
@@ -19,6 +28,24 @@ function Patients() {
 
   const [editingPatient, setEditingPatient] = useState(null);
   const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
+  const [isBillPaymentModalOpen, setIsBillPaymentModalOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [printView, setPrintView] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  const handleTotalAmountChange = (amount) => {
+    setTotalAmount(amount);
+  };
+
+  const openBillPaymentModal = (patient) => {
+    setSelectedPatient(patient);
+    setIsBillPaymentModalOpen(true);
+  };
+
+  const closeBillPaymentModal = () => {
+    setSelectedPatient(null);
+    setIsBillPaymentModalOpen(false);
+  };
 
   const openAddPatientModal = () => {
     setIsAddPatientModalOpen(true);
@@ -85,6 +112,10 @@ function Patients() {
     }, 500);
   };
 
+  const printPaymentBill = () => {
+    setPrintView(true);
+  };
+
   return (
     <div className="container mx-auto mt-10 ">
       <div className="mt-4 flex justify-start ml-20">
@@ -92,10 +123,17 @@ function Patients() {
       </div>
       <div className="mt-4 flex justify-end">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-500 mx-3 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
           onClick={openAddPatientModal}
         >
           + New appointment
+        </button>
+
+        <button
+          className="bg-blue-500 text-white mx-2 px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+          onClick={() => openBillPaymentModal(patients)}
+        >
+          + Bill Generate
         </button>
       </div>
 
@@ -173,9 +211,11 @@ function Patients() {
             <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
               <th className="py-3 px-6 text-left">Patients ID</th>
               <th className="py-3 px-6 text-left">Name</th>
-              <th className="py-3 px-6 text-left">DOB</th>
+              <th className="py-3 px-6 text-left">Age</th>
               <th className="py-3 px-6 text-left">Gender</th>
               <th className="py-3 px-6 text-left">Mobile no:</th>
+              <th className="py-3 px-6 text-left">Total Bill:</th>
+
               <th className="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
@@ -238,6 +278,11 @@ function Patients() {
                     patient.mobile
                   )}
                 </td>
+
+                <td className="py-3 px-6 text-left">
+                  {totalAmount.toFixed(2)}
+                </td>
+
                 <td className="py-3 px-6 text-right">
                   {editingPatient === patient.id ? (
                     <button
@@ -250,7 +295,7 @@ function Patients() {
                     <>
                       <button
                         className="bg-blue-300 text-white px-4 py-2 rounded mr-2"
-                        onClick={() => editPatient(patient.id)}
+                        onClick={printPaymentBill}
                       >
                         View
                       </button>
@@ -274,6 +319,12 @@ function Patients() {
           </tbody>
         </table>
       </div>
+      <BillScreen
+        isOpen={isBillPaymentModalOpen}
+        onClose={closeBillPaymentModal}
+        onTotalAmountChange={handleTotalAmountChange}
+        printView={printView}
+      />
     </div>
   );
 }

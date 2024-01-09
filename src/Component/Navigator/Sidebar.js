@@ -34,7 +34,8 @@ export function Sidebar() {
           </ListItemPrefix>
           <Link to="/Patients">Patients</Link>
         </ListItem>
-        <div className="mt-[450px]">
+       
+        <div className="mt-[380px]">
           <ListItem className="py-3">
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-7 " />
