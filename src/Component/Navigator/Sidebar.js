@@ -16,8 +16,8 @@ import { Link } from "react-router-dom";
 export function Sidebar() {
   return (
     <Card className="h-[calc(100vh)] w-full max-w-[12rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="mb-2 p-4">
-        <Typography variant="h5" className="text-blue-400 text-4xl font-bold">
+      <div className="mb-2 p-4 bg-blue-900 rounded">
+        <Typography variant="h5" className="text-white text-4xl font-bold">
           Claraly
         </Typography>
       </div>
@@ -34,7 +34,7 @@ export function Sidebar() {
           </ListItemPrefix>
           <Link to="/Patients">Patients</Link>
         </ListItem>
-        <div className="mt-96">
+        <div className="mt-[450px]">
           <ListItem className="py-3">
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-7 " />

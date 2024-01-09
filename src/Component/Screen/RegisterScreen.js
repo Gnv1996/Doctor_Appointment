@@ -133,7 +133,8 @@ function RegisterScreen() {
           >
             Register
           </button>
-          <div className="text-sm font-medium text-gray-900 dark:text-gray-900">
+
+          <div className="flex-row text-sm font-medium text-gray-900 dark:text-gray-900">
             Already registered?{" "}
             <Button
               onClick={loginHandler}
