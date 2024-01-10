@@ -9,6 +9,7 @@ import {
   PresentationChartBarIcon,
   UserCircleIcon,
   Cog6ToothIcon,
+  QuestionMarkCircleIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
@@ -34,8 +35,8 @@ export function Sidebar() {
           </ListItemPrefix>
           <Link to="/Patients">Patients</Link>
         </ListItem>
-       
-        <div className="mt-[380px]">
+
+        <div className="mt-[450px]">
           <ListItem className="py-3">
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-7 " />
@@ -44,7 +45,7 @@ export function Sidebar() {
           </ListItem>
           <ListItem className="py-3">
             <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-7" />
+              <QuestionMarkCircleIcon className="h-5 w-7" />
             </ListItemPrefix>
             <Link to="/contact"> Help Center</Link>
           </ListItem>

@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid"; // Import uuid
 import Swal from "sweetalert2";
 import BillScreen from "./BillScreen";
+import { MdDeleteForever } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
+import { IoMdEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
 
 function Patients() {
   const [patients, setPatients] = useState([
@@ -21,6 +25,7 @@ function Patients() {
       },
     },
   ]);
+
   const [names, setName] = useState("");
   const [dobs, setDob] = useState("");
   const [genders, setGender] = useState("");
@@ -32,6 +37,7 @@ function Patients() {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [printView, setPrintView] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleTotalAmountChange = (amount) => {
     setTotalAmount(amount);
@@ -55,13 +61,38 @@ function Patients() {
     setIsAddPatientModalOpen(false);
   };
 
+  const openBillsPaymentModal = (patient) => {
+    setSelectedPatient(patient);
+    setIsBillPaymentModalOpen(true);
+    setIsClicked(!isClicked);
+
+    setPrintView(true);
+  };
+
+  const generateBillForUser = (userId) => {
+    const user = patients.find((patient) => patient.id === userId);
+    if (user) {
+      openBillPaymentModal(user);
+    } else {
+      console.error(`User with ID ${userId} not found.`);
+    }
+  };
+
   const addNewPatient = () => {
     const newPatient = {
-      id: uuidv4(),
+      id: uuidv4(), // Generate a new UUID for the user ID
       name: names,
       dob: dobs,
       gender: genders,
       mobile: mobile_no,
+      billPayment: {
+        doctorFee: 0,
+        medicineCharge: 0,
+        ambulanceCharge: 0,
+        messCharge: 0,
+        maidFee: 0,
+        otherCharge: 0,
+      },
     };
     setPatients([...patients, newPatient]);
     setName("");
@@ -93,6 +124,7 @@ function Patients() {
   const editPatient = (id) => {
     setEditingPatient(id);
   };
+
   const saveChanges = (id, updatedInfo) => {
     const updatedPatients = patients.map((patient) =>
       patient.id === id ? { ...patient, ...updatedInfo } : patient
@@ -100,20 +132,15 @@ function Patients() {
     setPatients(updatedPatients);
     setEditingPatient(null);
 
-    // Delay the success message using setTimeout
     setTimeout(() => {
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "Patient Records Updated Successfully! Dr.Bugu",
+        title: "Patient Records Updated Successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
     }, 500);
-  };
-
-  const printPaymentBill = () => {
-    setPrintView(true);
   };
 
   return (
@@ -131,7 +158,7 @@ function Patients() {
 
         <button
           className="bg-blue-500 text-white mx-2 px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-          onClick={() => openBillPaymentModal(patients)}
+          onClick={() => generateBillForUser(patients[0]?.id)}
         >
           + Bill Generate
         </button>
@@ -163,20 +190,24 @@ function Patients() {
                   placeholder="New Patient"
                   onChange={(e) => setName(e.target.value)}
                 />
-                <label className="block my-2">DOB:</label>
+                <label className="block my-2">Age:</label>
                 <input
                   className="w-full p-2 border rounded"
                   type="text"
-                  placeholder="1/1/2000"
+                  placeholder="Enter your Age"
                   onChange={(e) => setDob(e.target.value)}
                 />
                 <label className="block my-2">Gender:</label>
-                <input
+                <select
                   className="w-full p-2 border rounded"
-                  type="text"
-                  placeholder="Other"
+                  value={genders}
                   onChange={(e) => setGender(e.target.value)}
-                />
+                >
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
                 <label className="block my-2">Mobile No:</label>
                 <input
                   className="w-full p-2 border rounded"
@@ -206,7 +237,7 @@ function Patients() {
       )}
 
       <div className="bg-white shadow-md rounded-lg overflow-hidden py-3 pb-96">
-        <table className="w-11/12 ml-16">
+        <table className="w-11/12 ml-12">
           <thead>
             <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
               <th className="py-3 px-6 text-left">Patients ID</th>
@@ -294,22 +325,26 @@ function Patients() {
                   ) : (
                     <>
                       <button
-                        className="bg-blue-300 text-white px-4 py-2 rounded mr-2"
-                        onClick={printPaymentBill}
+                        className="bg-blue-700 text-white px-4 py-2 rounded mr-2"
+                        onClick={() => openBillsPaymentModal(patient.id)}
                       >
-                        View
+                        {isClicked ? (
+                          <IoMdEye className="h-[20px] w-[20px]" />
+                        ) : (
+                          <IoIosEyeOff className="h-[20px] w-[20px]" />
+                        )}
                       </button>
                       <button
                         className="bg-green-500 text-white px-4 py-2 rounded mr-2"
                         onClick={() => editPatient(patient.id)}
                       >
-                        Edit
+                        <CiEdit className="h-[20px] w-[20px]" />
                       </button>
                       <button
                         className="bg-red-500 text-white px-4 py-2 rounded"
                         onClick={() => removePatient(patient.id)}
                       >
-                        Remove
+                        <MdDeleteForever className="h-[20px] w-[20px]" />
                       </button>
                     </>
                   )}
@@ -324,6 +359,7 @@ function Patients() {
         onClose={closeBillPaymentModal}
         onTotalAmountChange={handleTotalAmountChange}
         printView={printView}
+        selectedPatient={selectedPatient}
       />
     </div>
   );

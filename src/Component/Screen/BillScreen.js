@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
-const BillScreen = ({ isOpen, onClose, onTotalAmountChange, printView }) => {
+const BillScreen = ({
+  isOpen,
+  onClose,
+  onTotalAmountChange,
+  printView,
+  selectedPatient,
+}) => {
   const [doctorFee, setDoctorFee] = useState("");
   const [medicineCharge, setMedicineCharge] = useState("");
   const [ambulanceCharge, setAmbulanceCharge] = useState("");
@@ -38,16 +44,6 @@ const BillScreen = ({ isOpen, onClose, onTotalAmountChange, printView }) => {
   ]);
 
   const saveBillPayment = () => {
-    const billPayment = {
-      doctorFee: parseFloat(doctorFee) || 0,
-      medicineCharge: parseFloat(medicineCharge) || 0,
-      ambulanceCharge: parseFloat(ambulanceCharge) || 0,
-      messCharge: parseFloat(messCharge) || 0,
-      maidFee: parseFloat(maidFee) || 0,
-      otherCharge: parseFloat(otherCharge) || 0,
-      totalAmount: totalAmount,
-    };
-
     console.log(totalAmount, "Total Amount ;;;;");
 
     onClose();
@@ -62,13 +58,22 @@ const BillScreen = ({ isOpen, onClose, onTotalAmountChange, printView }) => {
   };
 
   useEffect(() => {
+    if (selectedPatient && selectedPatient.billPayment) {
+      setDoctorFee(selectedPatient.billPayment.doctorFee.toString());
+      setMedicineCharge(selectedPatient.billPayment.medicineCharge.toString());
+      setAmbulanceCharge(
+        selectedPatient.billPayment.ambulanceCharge.toString()
+      );
+      setMessCharge(selectedPatient.billPayment.messCharge.toString());
+      setMaidCharge(selectedPatient.billPayment.maidFee.toString());
+      setOtherCharge(selectedPatient.billPayment.otherCharge.toString());
+    }
+  }, [selectedPatient]);
+  useEffect(() => {
     if (!printView) {
       onClose(); // Close the modal when printView is false
     }
   }, [printView]);
-  // const printBillPayment = () => {
-  //   setPrintView(true);
-  // };
 
   return (
     <div className={`modal ${isOpen ? "block" : "hidden"}`}>
