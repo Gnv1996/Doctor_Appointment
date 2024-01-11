@@ -65,7 +65,6 @@ function Patients() {
     setSelectedPatient(patient);
     setIsBillPaymentModalOpen(true);
     setIsClicked(!isClicked);
-
     setPrintView(true);
   };
 
@@ -148,7 +147,7 @@ function Patients() {
       <div className="mt-4 flex justify-start ml-20">
         <h1 className="text-4xl font-bold  text-blue-900">Patient</h1>
       </div>
-      <div className="mt-4 flex justify-end">
+      <div className="mt-4 flex justify-end mr-12">
         <button
           className="bg-blue-500 mx-3 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
           onClick={openAddPatientModal}
@@ -171,7 +170,7 @@ function Patients() {
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/* Header */}
               <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                <h3 className="text-3xl font-semibold">Add New Patient</h3>
+                <h3 className="text-2xl font-semibold">Add New Patient</h3>
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={closeAddPatientModal}
@@ -182,19 +181,19 @@ function Patients() {
                 </button>
               </div>
 
-              <div className="relative p-6 flex-auto">
+              <div className="relative p-6 flex-auto w-96">
                 <label className="block mb-2">Name:</label>
                 <input
                   className="w-full p-2 border rounded"
                   type="text"
-                  placeholder="New Patient"
+                  placeholder="Patient Name"
                   onChange={(e) => setName(e.target.value)}
                 />
                 <label className="block my-2">Age:</label>
                 <input
                   className="w-full p-2 border rounded"
                   type="text"
-                  placeholder="Enter your Age"
+                  placeholder="Your Age"
                   onChange={(e) => setDob(e.target.value)}
                 />
                 <label className="block my-2">Gender:</label>

@@ -80,7 +80,7 @@ const BillScreen = ({
       {/* Modal content */}
 
       {printView ? (
-        <div className="p-4">
+        <div className="p-4 w-80">
           <h2 className="text-2xl items-center ml-52 font-semibold mb-4">
             Bill Payment Details
           </h2>
@@ -212,13 +212,10 @@ const BillScreen = ({
               {/* Footer */}
               <div className="flex items-center mx-2 justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                 <button
-                  className="text-white mx-2 bg-green-500 hover:bg-green-700 border-0 py-2 px-4 rounded"
+                  className="text-white w-80 bg-green-500 hover:bg-green-700 border-0 py-2 px-5 rounded"
                   onClick={saveBillPayment}
                 >
                   Save
-                </button>
-                <button className="text-white bg-green-500 hover:bg-green-700 border-0 py-2 px-4 rounded">
-                  Print
                 </button>
               </div>
             </div>
